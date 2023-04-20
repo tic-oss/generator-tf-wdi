@@ -9,7 +9,7 @@ function applicationDeployment {
   echo " 1. Make sure that you have installed kubectl and is configured with the up and running eks cluster."
   echo " 2. Make sure that you have installed aws-cli and configured it."
   echo " 3. Make sure that domain mapping is done properly."
-  echo " NOTE:- You will fine the DNS name of application load balancer under ./helm dir in output.txt file"
+  echo " NOTE:- You will find the DNS name of application load balancer under ./helm dir in output.txt file"
   echo ""
 
   echo -n "If above requirements meet, Enter(yes):"
