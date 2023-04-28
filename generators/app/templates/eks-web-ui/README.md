@@ -28,7 +28,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
 ```
 
-Copy paste the access token on to the login page to access the Kubernetes WEB UI.
+Use the above generated access token on to the login page to access the Kubernetes WEB UI.
 
 Ref:
 https://repost.aws/knowledge-center/eks-cluster-kubernetes-dashboard
