@@ -60,10 +60,10 @@ const fileListIstioMonitoring = [
   "istio-monitoring/README.md"
 ];
 
-const fileListEksWebUI = [
-  "eks-web-ui/provider.tf",
-  "eks-web-ui/main.tf",
-  "eks-web-ui/README.md"
+const fileListK8sWebUI = [
+  "k8s-web-ui/provider.tf",
+  "k8s-web-ui/main.tf",
+  "k8s-web-ui/README.md"
 ];
 
 // Below files are not required for M1
@@ -85,12 +85,12 @@ const fileListAcr = [
 ];
 
 const fileListAzure = [
-  "azure/auto-destroy.sh",
-  "azure/auto-deploy.sh",
-  "azure/install.sh",
-  "azure/destroy.sh",
-  "azure/terraform-install.sh",
-  "azure/README.md"
+  "azure-auto-destroy.sh",
+  "azure-auto-deploy.sh",
+  "azure-install.sh",
+  "azure-destroy.sh",
+  "azure-terraform-install.sh",
+  "README.md"
 ];
 
 const fileListGcp = [
@@ -114,5 +114,5 @@ module.exports = {
   fileListECR,
   fileListEcrBuildAndPush,
   fileListIstioMonitoring,
-  fileListEksWebUI
+  fileListK8sWebUI
 };

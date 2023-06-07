@@ -16,7 +16,7 @@ const {
   fileListECR,
   fileListEcrBuildAndPush,
   fileListIstioMonitoring,
-  fileListEksWebUI
+  fileListK8sWebUI
 } = require("./assets/filesList");
 
 module.exports = class extends Generator {
@@ -148,7 +148,7 @@ module.exports = class extends Generator {
 
       // Generate K8s Web UI only if the k8sWebUI is true
       if (options.k8sWebUI === "true") {
-        this._fileHelper(fileListEksWebUI, options, copyOpts);
+        this._fileHelper(fileListK8sWebUI, options, copyOpts);
       }
 
       if (options.enableECK === "true") {
