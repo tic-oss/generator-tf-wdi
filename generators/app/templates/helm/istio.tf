@@ -53,7 +53,12 @@ resource "helm_release" "istio-ingressgateway" {
   # provision's application loadbalancer
   set {
     name  = "service.type"
-    value = "NodePort"
+    value = <%_ if (cloudProvider == "aws") { _%>
+          "NodePort"
+          <%_ } _%>
+    <%_ if (cloudProvider == "azure") { _%>
+          "LoadBalancer"
+          <%_ } _%>
   }
 }
 
@@ -65,9 +70,15 @@ resource "kubernetes_ingress_v1" "ingress" {
       app = "ingress"
     }
     annotations = {
+      <%_ if (cloudProvider == "aws") { _%>
       "kubernetes.io/ingress.class"       = "alb"
       "alb.ingress.kubernetes.io/scheme"  = "internet-facing"  
-      "alb.ingress.kubernetes.io/load-balancer-name" = "${var.cluster_name}-istio-alb"    
+      "alb.ingress.kubernetes.io/load-balancer-name" = "${var.cluster_name}-istio-alb" 
+      <%_ } _%>
+      <%_ if (cloudProvider == "azure") { _%>
+      "kubernetes.io/ingress.class" = "azure/ingress-controller"
+      "service.beta.kubernetes.io/azure-dns-label-name" = "istio" 
+      <%_ } _%>   
     }
   }
 
@@ -94,6 +105,7 @@ resource "kubernetes_ingress_v1" "ingress" {
   ]
 }
 
+<%_ if (cloudProvider == "aws") { _%>
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [kubernetes_ingress_v1.ingress]
 
@@ -127,3 +139,4 @@ resource "null_resource" "kubectl" {
     helm_release.istio-ingressgateway
   ]
 }
+<%_ } _%>

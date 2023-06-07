@@ -34,9 +34,14 @@ resource "kubectl_manifest" "kibana_lb" {
       metadata:
         name: kibana-nlb
         annotations:
+          <%_ if (cloudProvider == "aws") { _%>
           service.beta.kubernetes.io/aws-load-balancer-type: external 
           service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+          <%_ } _%>
+          <%_ if (cloudProvider == "azure") { _%>
+          service.beta.kubernetes.io/azure-dns-label-name: kibana
+          <%_ } _%>
         namespace: default
       spec:
         type: LoadBalancer

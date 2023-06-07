@@ -14,6 +14,9 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
+<%_ if (cloudProvider == "aws") { _%>
 provider "aws" {
   region     = var.region
 }
+<%_ } _%>
+

@@ -36,9 +36,14 @@ resource "kubectl_manifest" "elasticsearch_lb" {
       metadata:
         name: elasticsearch-nlb
         annotations:
+          <%_ if (cloudProvider == "aws") { _%>
           service.beta.kubernetes.io/aws-load-balancer-type: external 
           service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+          <%_ } _%>
+          <%_ if (cloudProvider == "azure") { _%>
+          service.beta.kubernetes.io/azure-dns-label-name: elasticsearch
+          <%_ } _%>
         namespace: default
       spec:
         type: LoadBalancer
@@ -55,3 +60,4 @@ resource "kubectl_manifest" "elasticsearch_lb" {
     kubectl_manifest.elasticsearch
   ]
 }
+

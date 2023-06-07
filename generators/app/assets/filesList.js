@@ -70,12 +70,27 @@ const fileListEksWebUI = [
 
 // ? Need to add
 
+const fileListAks = [
+  "aks/00-variable.tf",
+  "aks/01-provider.tf",
+  "aks/02-main.tf",
+  "aks/03-outputs.tf"
+];
+
+const fileListAcr = [
+  "acr/00-variable.tf",
+  "acr/01-provider.tf",
+  "acr/02-main.tf",
+  "acr/03-push_image.ps1"
+];
+
 const fileListAzure = [
-  "aks/aks-cluster",
-  "aks/kubernetes-config",
-  "aks/outputs.tf",
-  "aks/variables.tf",
-  "aks/main.tf"
+  "azure/auto-destroy.sh",
+  "azure/auto-deploy.sh",
+  "azure/install.sh",
+  "azure/destroy.sh",
+  "azure/terraform-install.sh",
+  "azure/README.md"
 ];
 
 const fileListGcp = [
@@ -91,6 +106,8 @@ module.exports = {
   fileListEksDrivers,
   fileListEck,
   fileListGcp,
+  fileListAks,
+  fileListAcr,
   fileListAzure,
   fileListHelmIstio,
   fileListNamespace,
