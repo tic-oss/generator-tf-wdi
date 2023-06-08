@@ -76,7 +76,7 @@ let prompts = [
     name: "ingress",
     message: "Select Ingress Type",
     choices: ["Nginx", "ISTIO"]
-  },
+  }
   // {
   //   type: "list",
   //   name: "frontend",

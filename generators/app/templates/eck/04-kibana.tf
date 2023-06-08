@@ -9,6 +9,7 @@ resource "kubectl_manifest" "kibana" {
         count: 1
         elasticsearchRef:
           name: quickstart
+<%_ if (minikube == "false") { _%>          
         podTemplate:
             spec:
               affinity:
@@ -20,6 +21,7 @@ resource "kubectl_manifest" "kibana" {
                         operator: In
                         values:
                         - ${var.cluster_name}-eck-node-group
+<%_ } _%>
   YAML
 
   depends_on = [
@@ -33,10 +35,12 @@ resource "kubectl_manifest" "kibana_lb" {
       kind: Service
       metadata:
         name: kibana-nlb
+<%_ if (minikube == "false") { _%>          
         annotations:
           service.beta.kubernetes.io/aws-load-balancer-type: external 
           service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+<%_ } _%>
         namespace: default
       spec:
         type: LoadBalancer

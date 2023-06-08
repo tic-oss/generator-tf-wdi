@@ -100,6 +100,7 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 
+<%_ if (minikube == "false") { _%>
 data "aws_lb" "istio_alb" {
   name = "${var.cluster_name}-istio-alb"
   depends_on = [
@@ -115,6 +116,7 @@ resource "null_resource" "print_alb_dns_name" {
     data.aws_lb.istio_alb
   ]
 }
+<%_ } _%>
 
 # Adds default namespace as side car in istio 
 resource "null_resource" "kubectl" {
