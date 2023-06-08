@@ -121,7 +121,7 @@ resource "azurerm_subnet_route_table_association" "subnet_routtable_association"
   
 
   default_node_pool {
-    name                   = var.node_pool_app_name
+    name                   = var.apps_node_pool
     enable_auto_scaling    = var.enable_auto_scaling
     min_count              = var.min_count
     max_count              = var.max_count
@@ -150,7 +150,7 @@ resource "azurerm_subnet_route_table_association" "subnet_routtable_association"
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "nodepool" {
-  name                  = var.node_pool_ack_name
+  name                  = var.eck_node_pool
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
   vm_size               = var.eck_vm_size
   node_count            = var.node_count

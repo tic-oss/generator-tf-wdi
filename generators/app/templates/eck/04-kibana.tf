@@ -16,10 +16,18 @@ resource "kubectl_manifest" "kibana" {
                   requiredDuringSchedulingIgnoredDuringExecution:
                     nodeSelectorTerms:
                     - matchExpressions:
+                      <%_ if (cloudProvider == "aws") { _%>
                       - key: eks.amazonaws.com/nodegroup
                         operator: In
                         values:
                         - ${var.cluster_name}-eck-node-group
+                      <%_ } _%>
+                      <%_ if (cloudProvider == "azure") { _%>
+                      - key: agentpool
+                        operator: In
+                        values:
+                        - ${var.eck_node_pool}
+                      <%_ } _%>
   YAML
 
   depends_on = [

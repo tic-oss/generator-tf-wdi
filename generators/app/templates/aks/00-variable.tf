@@ -218,14 +218,14 @@ variable "network_policy" {
   }
 }
 
-variable "node_pool_ack_name" {
-  description = "name of the node epool ."
+variable "eck_node_pool" {
+  description = "name of the eck node pool."
   type        = string
-  default     = "acknodepool" 
+  default     = "ecknodepool" 
 }
 
-variable "node_pool_app_name" {
-  description = "name of the node epool ."
+variable "apps_node_pool" {
+  description = "name of the apps node pool."
   type        = string
   default     = "appnodepool" 
 }
@@ -296,4 +296,4 @@ variable "rbac_server_app_secret" {
 }
 variable "rbac_client_app_id" {
     default = ""
-    }
+}
