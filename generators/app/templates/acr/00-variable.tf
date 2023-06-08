@@ -3,8 +3,14 @@ variable "resource_group_name" {
   type        = string
   default     = <%- "\""+"rg-"+projectName+"\"" %>
 }
+
+variable "cluster_name" {
+  description = "Name of AKS cluster."
+  type        = string
+  default     = <%- "\""+clusterName+"\"" %> 
+}
 variable "acr_name" {
-  description = "Name of the resource group to be imported."
+  description = "Name of the azure container registry."
   type        = string
   default     = <%- "\""+"acr"+projectName+"\"" %> 
 }
@@ -19,32 +25,3 @@ variable "acr_sku" {
   description = "The SKU of the Azure Container Registry"
   default     = "Basic"
 }
-
-variable "image_name" {
-  type        = string
-  description = "Name of the Docker Image"
-  default     = "postgres"
-}
-
-variable "image_tag" {
-  type        = string
-  description = "Name of the Docker tag"
-  default     = "1.2"
-}
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-

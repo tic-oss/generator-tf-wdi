@@ -6,29 +6,16 @@ resource "azurerm_container_registry" "acr" {
   location            = var.location
   sku                 = var.acr_sku
   admin_enabled       = true
-  # georeplications {
-  #   location                = "East US"
-  #   zone_redundancy_enabled = true
-  #   tags                    = {}
-  # }
 }
 
-resource "null_resource" "push_to_acr" {
-  depends_on = [azurerm_container_registry.acr]
-
-  provisioner "local-exec" {
-    command = "powershell.exe -ExecutionPolicy Bypass -File D:/TIC/Azure_Terraform/modules/acr/push_image.ps1 -registryName ${azurerm_container_registry.acr.name}"
-  }
+data "azurerm_kubernetes_cluster" "aks" {
+  name                = var.cluster_name
+  resource_group_name = var.resource_group_name
 }
 
-resource "null_resource" "kubectl" {
-  provisioner "local-exec" {
-    command = "az aks update -n nandinicluster -g TIC --attach-acr ${azurerm_container_registry.acr.name} "
-  }
-  depends_on = [azurerm_container_registry.acr]
+resource "azurerm_role_assignment" "attach_acr_to_aks" {
+  principal_id                     = data.azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.acr.id
+  skip_service_principal_aad_check = true
 }
-
-
-
-
-

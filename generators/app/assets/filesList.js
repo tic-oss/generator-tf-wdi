@@ -80,8 +80,15 @@ const fileListAks = [
 const fileListAcr = [
   "acr/00-variable.tf",
   "acr/01-provider.tf",
-  "acr/02-main.tf",
-  "acr/03-push_image.ps1"
+  "acr/02-main.tf"
+];
+
+const fileListAcrBuildAndPush = [
+  "acr-build&publish/00-variables.tf",
+  "acr-build&publish/01-provider.tf",
+  "acr-build&publish/02-build-image.tf",
+  "acr-build&publish/03-publish-image.tf",
+  "acr-build&publish/README.md"
 ];
 
 const fileListAzure = [
@@ -108,6 +115,7 @@ module.exports = {
   fileListGcp,
   fileListAks,
   fileListAcr,
+  fileListAcrBuildAndPush,
   fileListAzure,
   fileListHelmIstio,
   fileListNamespace,

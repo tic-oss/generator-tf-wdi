@@ -10,6 +10,7 @@ const {
   fileListGcp,
   fileListAks,
   fileListAcr,
+  fileListAcrBuildAndPush,
   fileListAzure,
   fileListMinikube,
   fileListHelmIstio,
@@ -119,6 +120,7 @@ module.exports = class extends Generator {
           this.log("Azure Generator");
           this._fileHelper(fileListAks, options, copyOpts);
           this._fileHelper(fileListAcr, options, copyOpts);
+          this._fileHelper(fileListAcrBuildAndPush, options, copyOpts);
           this._fileHelper(fileListAzure, options, copyOpts);
           break;
         case "minikube":
