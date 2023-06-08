@@ -1,5 +1,5 @@
 
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "arg" {
   name     = var.resource_group_name
   location = var.location
 }
@@ -8,7 +8,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = var.address_space
   location            = var.location
   name                = var.vnet_name
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.arg.name
   dns_servers         = var.dns_servers
   tags                = var.tags
 
@@ -21,7 +21,7 @@ resource "azurerm_subnet" "vnet_subnets" {
 
   address_prefixes                               = [var.address_prefix[count.index]]
   name                                           = var.subnet_name[count.index]
-  resource_group_name                            = azurerm_resource_group.example.name
+  resource_group_name                            = azurerm_resource_group.arg.name
   virtual_network_name                           = azurerm_virtual_network.vnet.name
 
   dynamic "delegation" {
@@ -44,7 +44,7 @@ resource "azurerm_subnet" "vnet_subnets" {
 resource "azurerm_network_security_group" "nsg" {
   location            = var.location 
   name                = var.security_group_name
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.arg.name
   tags                = var.tags
   count               = var.num_rules
 
@@ -84,7 +84,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_subnet_associa
 resource "azurerm_route_table" "route_1" {
   name                          = "Public-route-table"
   location                      = var.location
-  resource_group_name           = azurerm_resource_group.example.name
+  resource_group_name           = azurerm_resource_group.arg.name
   disable_bgp_route_propagation = false
   tags                          = var.tags
 
@@ -113,12 +113,12 @@ resource "azurerm_subnet_route_table_association" "subnet_routtable_association"
 ####################################################################################################
 ################################### KUBERNETES #####################################################
 
-  resource "azurerm_kubernetes_cluster" "example" {
+  resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.cluster_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.arg.name
   dns_prefix          = var.dns_prefix
-  #blob_driver_enabled  = true
+  
 
   default_node_pool {
     name                   = var.node_pool_app_name
@@ -149,9 +149,9 @@ resource "azurerm_subnet_route_table_association" "subnet_routtable_association"
   }
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "example" {
+resource "azurerm_kubernetes_cluster_node_pool" "nodepool" {
   name                  = var.node_pool_ack_name
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.example.id
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
   vm_size               = var.eck_vm_size
   node_count            = var.node_count
 }
@@ -159,27 +159,27 @@ resource "azurerm_kubernetes_cluster_node_pool" "example" {
 
 
 output "client_certificate" {
-  value     = azurerm_kubernetes_cluster.example.kube_config.0.client_certificate
+  value     = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
   sensitive = true
 }
 
 output "kube_config" {
-  value = azurerm_kubernetes_cluster.example.kube_config_raw
+  value = azurerm_kubernetes_cluster.aks.kube_config_raw
 
   sensitive = true
 }
 
-data "azurerm_resources" "example" {
-  resource_group_name = azurerm_kubernetes_cluster.example.node_resource_group
+data "azurerm_resources" "resource" {
+  resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
 
   type = "Microsoft.Network/networkSecurityGroups"
 }
 
 output name_nsg {
-    value = data.azurerm_resources.example.resources.0.name
+    value = data.azurerm_resources.resource.resources.0.name
 }
 
-resource "azurerm_network_security_rule" "example" {
+resource "azurerm_network_security_rule" "nsgrule" {
   name                        = "example"
   priority                    = 100
   direction                   = "Inbound"
@@ -189,8 +189,8 @@ resource "azurerm_network_security_rule" "example" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_kubernetes_cluster.example.node_resource_group
-  network_security_group_name = data.azurerm_resources.example.resources.0.name
+  resource_group_name         = azurerm_kubernetes_cluster.aks.node_resource_group
+  network_security_group_name = data.azurerm_resources.resource.resources.0.name
 }
 
 

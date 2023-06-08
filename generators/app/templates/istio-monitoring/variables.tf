@@ -1,12 +1,12 @@
+<%_ if (cloudProvider == "aws") { _%>
 variable "region" {
   type    = string
-  default = [
-    <%_ if (cloudProvider == "aws") { _%>
-          <%- "\""+awsRegion+"\"" %>
-          <%_ } _%>
-    <%_ if (cloudProvider == "azure") { _%>
-          <%- "\""+location+"\"" %>
-          <%_ } _%>
-  ]
+  default = <%- "\""+awsRegion+"\"" %>
 }
-
+<%_ } _%>
+<%_ if (cloudProvider == "azure") { _%>
+variable "location" {
+  type    = string
+  default = <%- "\""+location+"\"" %>
+}
+<%_ } _%>
