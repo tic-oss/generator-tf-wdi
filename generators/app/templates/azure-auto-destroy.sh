@@ -2,11 +2,11 @@
 
 # Define the functions to call
 
-#AWS
+#AZURE
 function azure {
-     echo -e "You have opted for \033[1;32mAWS\033[0m cloud provider"
+     echo -e "You have opted for \033[1;32mAZURE\033[0m cloud provider"
     # Add code here to execute the action for azure
-    echo "Initiating the aws action...."
+    echo "Initiating the azure action...."
     while true; do
       echo ""
       echo "Set up Azure credentials which will be used be terraform"
@@ -17,7 +17,7 @@ function azure {
       export AZURE_CLIENT_ID=$client_id
       export AZURE_CLIENT_SECRET=$client_secret
       echo ""
-      echo -e "\033[1;33mProvided aws configuration\033[0m"
+      echo -e "\033[1;33mProvided azure service principal details\033[0m"
       echo "azure client_id:"${AZURE_CLIENT_ID}
       echo "azure client_secret:"${AZURE_CLIENT_SECRET}
       echo -n "Ensure that your azure credentials are correct,(yes/no):"
@@ -30,7 +30,7 @@ function azure {
       fi
     done
     echo ""
-    echo -e "\033[1;32mAws credentials are set!\033[0m"
+    echo -e "\033[1;32mAzure service principal credentials are set!\033[0m"
     echo ""
     echo -n "Continue with the destroying Infrastructure,(yes/no):"
     read user_continue_action
@@ -43,6 +43,7 @@ function azure {
         "./helm"
         "./eck"
         "./aks"
+        "./acr"
         )
 
         # Loop through each directory and execute command
@@ -104,4 +105,4 @@ fi
 # Use figlet to print "AutoDeploy"
 figlet -f slant "AutoDestroy"
 echo ""
-aws
+azure

@@ -131,22 +131,19 @@ resource "azurerm_subnet_route_table_association" "subnet_routtable_association"
   }
   
    network_profile {
-    network_plugin     = var.network_plugin
-    network_policy     = var.network_policy
-    dns_service_ip     = var.dns_service_ip
-    service_cidr       = var.service_cidr
-    docker_bridge_cidr = var.docker_bridge_cidr
-    outbound_type      = var.outbound_type
-    
+      network_plugin     = var.network_plugin
+      network_policy     = var.network_policy
+      dns_service_ip     = var.dns_service_ip
+      service_cidr       = var.service_cidr
+      docker_bridge_cidr = var.docker_bridge_cidr
+      outbound_type      = var.outbound_type
     }
 
   identity {
     type = "SystemAssigned"
   }
  
-  tags = {
-    Environment = "dev"
-  }
+  tags = var.tags
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "nodepool" {
@@ -154,6 +151,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "nodepool" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
   vm_size               = var.eck_vm_size
   node_count            = var.node_count
+  vnet_subnet_id         = azurerm_subnet.vnet_subnets[0].id
 }
 
 

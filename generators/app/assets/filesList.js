@@ -66,19 +66,15 @@ const fileListK8sWebUI = [
   "k8s-web-ui/README.md"
 ];
 
-// Below files are not required for M1
-
-// ? Need to add
-
 const fileListAks = [
-  "aks/00-variable.tf",
+  "aks/00-variables.tf",
   "aks/01-provider.tf",
   "aks/02-main.tf",
-  "aks/03-outputs.tf"
+  "aks/03-kubeconfig.tf"
 ];
 
 const fileListAcr = [
-  "acr/00-variable.tf",
+  "acr/00-variables.tf",
   "acr/01-provider.tf",
   "acr/02-main.tf"
 ];
@@ -94,9 +90,7 @@ const fileListAcrBuildAndPush = [
 const fileListAzure = [
   "azure-auto-destroy.sh",
   "azure-auto-deploy.sh",
-  "azure-install.sh",
-  "azure-destroy.sh",
-  "azure-terraform-install.sh",
+  "terraform-install.sh",
   "README.md"
 ];
 

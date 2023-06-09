@@ -101,7 +101,7 @@ module.exports = class extends Generator {
     fileList.forEach(file => {
       this.fs.copyTpl(
         this.templatePath(file),
-        this.destinationPath(`${opts.projectName}/terraform/${file}`),
+        this.destinationPath(`${opts.projectId}/terraform/${file}`),
         opts,
         copyOpts
       );

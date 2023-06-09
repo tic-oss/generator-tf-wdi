@@ -9,14 +9,14 @@ variable "tags" {
   type        = map(string)
 
   default = {
-    ENV = "dev-tic"
+    APP = <%- "\""+projectName+"\"" %>
   }
 }
 
 variable "vnet_name" {
   description = "Name of the vnet to create"
   type        = string
-  default     = "vnet-tic"
+  default     = <%- "\""+"vnet-"+projectName+"\"" %>
 }
 
 variable "address_space" {
@@ -41,17 +41,17 @@ variable "location" {
 variable "security_group_name" {
   description = "Network security group name"
   type        = string
-  default     = "nsg-subnet"
+  default     = <%- "\""+"nsg-"+projectName+"\"" %>
 }
 
 variable "subnet_name" {
   description = "Name of the subnets."
   type        = list(string)
   default     = [
-    "public_subnet_0", 
-    "public_subnet_3", 
-    "private_subnet_0", 
-    "private_subnet_3", 
+    <%- "\""+"public_subnet_"+clusterName+"_0\"," %>
+    #<%- "\""+"public_subnet_"+clusterName+"_1\"," %>
+    #<%- "\""+"private_subnet_"+clusterName+"_0\"," %>
+    #<%- "\""+"private_subnet_"+clusterName+"_1\"," %>
     ]  
 }
 
@@ -60,9 +60,9 @@ variable "address_prefix" {
   type        = list(string)
   default     = [
     "10.0.0.0/24",
-    "10.0.1.0/24",
-    "10.0.2.0/24", 
-    "10.0.3.0/24", 
+    #"10.0.1.0/24",
+    #"10.0.2.0/24", 
+    #"10.0.3.0/24", 
   ]
 }
 
@@ -140,12 +140,6 @@ variable "dns_prefix" {
   default     = "tic" 
 }
 
-variable "sku_tier" {
-  description = "Sets the cluster's SKU tier. The paid tier has a financially-backed uptime SLA. Read doc [here](https://docs.microsoft.com/en-us/azure/aks/uptime-sla)."
-  type        = string
-  default     = "Free"
-}
-
 variable "kubernetes_version" {
   description = "kubernetes version"
   type        = string
@@ -168,25 +162,16 @@ variable "network_plugin" {
 }
 
 variable "dns_service_ip" {
-  description = "kubernetes version"
   type        = string
   default     = "10.0.24.10"
 }
 
 variable "service_cidr" {
-  description = "kubernetes version"
   type        = string
   default     = "10.0.24.0/24"
 }
 
-variable "pod_cidr" {
-  description = "kubernetes version"
-  type        = string
-  default     = "10.0.2.0/24"
-}
-
 variable "docker_bridge_cidr" {
-  description = "kubernetes version"
   type        = string
   default     = "172.17.0.1/16"
 }
@@ -245,16 +230,7 @@ variable "app_vm_size" {
   type        = string
   default     = "standard_b4ms"
 }
-variable "os_type" {
-  description = "os_type."
-  type        = string
-  default     = "linux" 
-}
-variable "os_disk_size_gb" {
-  description = "size of the os disk."
-  type        = number
-  default     = "30" 
-}
+
 variable "enable_auto_scaling" {
   description = " enabling auto scaling for cluster."
   type        = bool
@@ -262,38 +238,12 @@ variable "enable_auto_scaling" {
 }
 
 variable "min_count" {
-  description = "minimum count for cluster ."
+  description = "minimum count for cluster."
   type        = number
   default     = "1" 
 }
 variable "max_count" {
-  description = "maximus count for cluster ."
+  description = "maximum count for cluster."
   type        = number
   default     = "3" 
-}
-
-
-# variable "client_id" {
-#   description = "client ID."
-#   type        = string
-#   default     = "f838ca01-f6b0-4ba0-a43e-d425a936cabb" 
-# }
-
-# variable "client_secret" {
-#   description = "client ID."
-#   type        = string
-#   default     = "IOl8Q~fCE.2s1miL01ih5~StvjuJ.05pDkBVea8J" 
-# }
-
-# variable "tenant_id" {
-#     default = "08396ad5-fd8c-4c92-a481-e11e65398d12"
-#     }    
-variable "rbac_server_app_id" {
-    default = ""
-}
-variable "rbac_server_app_secret" {
-    default = ""
-}
-variable "rbac_client_app_id" {
-    default = ""
 }

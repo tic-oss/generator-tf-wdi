@@ -9,6 +9,7 @@ variable "cluster_name" {
   type        = string
   default     = <%- "\""+clusterName+"\"" %> 
 }
+
 variable "acr_name" {
   description = "Name of the azure container registry."
   type        = string
@@ -20,6 +21,7 @@ variable "location" {
   type    = string
   default = <%- "\""+location+"\"" %>
 }
+
 variable "acr_sku" {
   type        = string
   description = "The SKU of the Azure Container Registry"
