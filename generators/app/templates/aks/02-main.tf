@@ -33,7 +33,6 @@ resource "azurerm_subnet" "vnet_subnets" {
     service_delegation {
       name    = lookup(delegation.value, "service_name",[])
       actions = lookup(delegation.value, "service_actions", [])
-      
      }
     }
   }
@@ -55,7 +54,7 @@ resource "azurerm_network_security_group" "nsg" {
     access                     = var.rule_configurations[count.index].access
     protocol                   = var.rule_configurations[count.index].protocol
     source_port_range          = var.rule_configurations[count.index].source_port_range
-    destination_port_range     = var.rule_configurations[count.index].destination_port_range
+    destination_port_ranges    = var.rule_configurations[count.index].destination_port_ranges
     source_address_prefix      = var.rule_configurations[count.index].source_address_prefix
     destination_address_prefix = var.rule_configurations[count.index].destination_address_prefix
   }
@@ -79,7 +78,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_subnet_associa
   ]
 }
 
-################################# ROUTE TABLE FOT SUBNETS ##########################################
+################################# ROUTE TABLE FOR SUBNETS ##########################################
 
 resource "azurerm_route_table" "route_1" {
   name                          = "Public-route-table"
@@ -153,53 +152,4 @@ resource "azurerm_kubernetes_cluster_node_pool" "nodepool" {
   node_count            = var.node_count
   vnet_subnet_id         = azurerm_subnet.vnet_subnets[0].id
 }
-
-
-
-output "client_certificate" {
-  value     = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
-  sensitive = true
-}
-
-output "kube_config" {
-  value = azurerm_kubernetes_cluster.aks.kube_config_raw
-
-  sensitive = true
-}
-
-data "azurerm_resources" "resource" {
-  resource_group_name = azurerm_kubernetes_cluster.aks.node_resource_group
-
-  type = "Microsoft.Network/networkSecurityGroups"
-}
-
-output name_nsg {
-    value = data.azurerm_resources.resource.resources.0.name
-}
-
-resource "azurerm_network_security_rule" "nsgrule" {
-  name                        = "example"
-  priority                    = 100
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "*"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_kubernetes_cluster.aks.node_resource_group
-  network_security_group_name = data.azurerm_resources.resource.resources.0.name
-}
-
-
-
-  
-
-  
-
-
-
-
-
-
 

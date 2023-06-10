@@ -49,9 +49,6 @@ variable "subnet_name" {
   type        = list(string)
   default     = [
     <%- "\""+"public_subnet_"+clusterName+"_0\"," %>
-    #<%- "\""+"public_subnet_"+clusterName+"_1\"," %>
-    #<%- "\""+"private_subnet_"+clusterName+"_0\"," %>
-    #<%- "\""+"private_subnet_"+clusterName+"_1\"," %>
     ]  
 }
 
@@ -60,9 +57,6 @@ variable "address_prefix" {
   type        = list(string)
   default     = [
     "10.0.0.0/24",
-    #"10.0.1.0/24",
-    #"10.0.2.0/24", 
-    #"10.0.3.0/24", 
   ]
 }
 
@@ -85,42 +79,20 @@ variable "rule_configurations" {
     access                     = string
     protocol                   = string
     source_port_range          = string
-    destination_port_range     = string
+    destination_port_ranges    = list(number)
     source_address_prefix      = string
     destination_address_prefix = string
   }))
   default = [
     {
-      name                       = "allow_ssh"
+      name                       = "AllowInternetInBound"
       priority                   = 100
       direction                  = "Inbound"
       access                     = "Allow"
-      protocol                   = "Tcp"
+      protocol                   = "*"
       source_port_range          = "*"
-      destination_port_range     = "22"
-      source_address_prefix      = "*"
-      destination_address_prefix = "*"
-    },
-    {
-      name                       = "allow_http"
-      priority                   = 101
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "Tcp"
-      source_port_range          = "*"
-      destination_port_range     = "80"
-      source_address_prefix      = "*"
-      destination_address_prefix = "*"
-    },
-    {
-      name                       = "allow_https"
-      priority                   = 102
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "Tcp"
-      source_port_range          = "*"
-      destination_port_range     = "443"
-      source_address_prefix      = "*"
+      destination_port_ranges    = [80, 443, 5601, 9200, 15021]
+      source_address_prefix      = "Internet"
       destination_address_prefix = "*"
     }
   ]
