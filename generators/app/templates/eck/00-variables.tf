@@ -1,4 +1,4 @@
-<%_ if (minikube == "false") { _%>
+<%_ if (minikube == "false" || minikube == undefined) { _%>
 variable "cluster_name" {
   type    = string
   default = <%- "\""+clusterName+"\"" %>

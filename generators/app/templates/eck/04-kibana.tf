@@ -9,7 +9,7 @@ resource "kubectl_manifest" "kibana" {
         count: 1
         elasticsearchRef:
           name: quickstart
-<%_ if (minikube == "false") { _%>          
+<%_ if (minikube == "false" || minikube == undefined) { _%>          
         podTemplate:
             spec:
               affinity:
@@ -35,7 +35,7 @@ resource "kubectl_manifest" "kibana_lb" {
       kind: Service
       metadata:
         name: kibana-nlb
-<%_ if (minikube == "false") { _%>          
+<%_ if (minikube == "false" || minikube == undefined) { _%>          
         annotations:
           service.beta.kubernetes.io/aws-load-balancer-type: external 
           service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing

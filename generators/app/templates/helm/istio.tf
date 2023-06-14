@@ -100,7 +100,7 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 
-<%_ if (minikube == "false") { _%>
+<%_ if (minikube == "false" || minikube == undefined) { _%>
 data "aws_lb" "istio_alb" {
   name = "${var.cluster_name}-istio-alb"
   depends_on = [
