@@ -45,6 +45,9 @@ module.exports = class extends Generator {
     };
 
     const options = JSON.parse(this.options);
+    if (options.minikube === undefined) {
+      options.minikube = "false";
+    }
 
     // Const options = {
     //   name:  this.props.name,
