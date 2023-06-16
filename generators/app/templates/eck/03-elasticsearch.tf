@@ -19,11 +19,22 @@ resource "kubectl_manifest" "elasticsearch" {
                   requiredDuringSchedulingIgnoredDuringExecution:
                     nodeSelectorTerms:
                     - matchExpressions:
+                      <%_ if (cloudProvider == "aws") { _%>
                       - key: eks.amazonaws.com/nodegroup
                         operator: In
                         values:
                         - ${var.cluster_name}-eck-node-group
+
 <%_ } _%>
+
+                      <%_ } _%>
+                      <%_ if (cloudProvider == "azure") { _%>
+                      - key: agentpool
+                        operator: In
+                        values:
+                        - ${var.eck_node_pool}
+                      <%_ } _%>
+
   YAML
 
   depends_on = [
@@ -39,10 +50,18 @@ resource "kubectl_manifest" "elasticsearch_lb" {
         name: elasticsearch-nlb
 <%_ if (minikube == "false") { _%>          
         annotations:
+          <%_ if (cloudProvider == "aws") { _%>
           service.beta.kubernetes.io/aws-load-balancer-type: external 
           service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+<<<<<<< HEAD
 <%_ } _%>
+=======
+          <%_ } _%>
+          <%_ if (cloudProvider == "azure") { _%>
+          service.beta.kubernetes.io/azure-dns-label-name: elasticsearch
+          <%_ } _%>
+>>>>>>> 92ab2c638720281a94f5872946fd4fb5c45237c6
         namespace: default
       spec:
         type: LoadBalancer
@@ -59,3 +78,4 @@ resource "kubectl_manifest" "elasticsearch_lb" {
     kubectl_manifest.elasticsearch
   ]
 }
+
