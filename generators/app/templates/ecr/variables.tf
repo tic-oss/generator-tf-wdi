@@ -3,3 +3,9 @@ variable "region" {
   default = <%- "\""+awsRegion+"\"" %>
 }
 
+variable "tags" {
+  type        = map(string)
+  default = {
+    APP = <%- "\""+projectName+"\"" %>
+  }
+}

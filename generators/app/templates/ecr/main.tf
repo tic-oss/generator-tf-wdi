@@ -6,6 +6,9 @@ resource "aws_ecr_repository" "ecr_repo_<%- appFolder.toLowerCase() %>" {
   image_scanning_configuration {
     scan_on_push = true
   }
+
+  tags = var.tags
+
 }
 
 <%_ }) _%>
