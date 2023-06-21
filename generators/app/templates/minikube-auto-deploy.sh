@@ -21,10 +21,11 @@ function applicationDeployment {
       minikube_ip=$(kubectl get node -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
       # replace  pc with this minikube_ip
       sed -i "s/minikube_ip_placeholder/$minikube_ip/g" kubectl-apply.sh
-      ./kubectl-apply.sh -f
       cd keycloak-k8s
       sed -i "s/minikube_ip_placeholder/$minikube_ip/g" keycloak-configmap.yml
-      cd ../..
+      cd ..
+      ./kubectl-apply.sh -f
+      cd ..
       cd terraform
   else 
       echo "Thank you, user!"
