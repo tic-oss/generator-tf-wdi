@@ -7,8 +7,9 @@ resource "aws_ecr_repository" "ecr_repo_<%- appFolder.toLowerCase() %>" {
     scan_on_push = true
   }
 
-  tags = var.tags
-
+ tags = {
+    app = var.project_name
+  }
 }
 
 <%_ }) _%>

@@ -14,7 +14,7 @@ resource "aws_eks_node_group" "eck-node-group" {
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"
-    "APP"                                           = var.tags
+    "app"                                           = var.project_name
   }
 
   depends_on = [
@@ -41,7 +41,7 @@ resource "aws_eks_node_group" "apps-node-group" {
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"
-    "APP"                                           = var.tags
+    "app"                                           = var.project_name
   }
 
   depends_on = [

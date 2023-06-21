@@ -31,6 +31,6 @@ variable "acr_sku" {
 variable "tags" {
   type        = map(string)
   default = {
-    APP = <%- "\""+projectName+"\"" %>
+    app = <%- "\""+projectName+"\"" %>
   }
 }
