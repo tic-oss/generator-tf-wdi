@@ -1,4 +1,4 @@
-<%_ if (minikube == "false") { _%>
+<%_ if (onCloud == "true") { _%>
 terraform {
  required_providers {
 <%_ if (cloudProvider == "aws") { _%>

@@ -11,7 +11,7 @@ resource "kubectl_manifest" "elasticsearch" {
           count: 1
           config:
             node.store.allow_mmap: false
-          <%_ if (minikube == "false") { _%> 
+          <%_ if (onCloud == "true") { _%> 
           podTemplate:
             spec:
               affinity:
@@ -45,7 +45,7 @@ resource "kubectl_manifest" "elasticsearch_lb" {
       kind: Service
       metadata:
         name: elasticsearch-nlb
-        <%_ if (minikube == "false") { _%> 
+        <%_ if (onCloud == "true") { _%> 
         annotations:
           <%_ if (cloudProvider == "aws") { _%>
           service.beta.kubernetes.io/aws-load-balancer-type: external 

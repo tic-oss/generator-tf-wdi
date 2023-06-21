@@ -50,7 +50,7 @@ resource "helm_release" "istio-ingressgateway" {
     name = "labels.istio"
     value = "ingressgateway"
   }
-  <%_ if (minikube == "false") { _%>
+  <%_ if (onCloud == "true") { _%>
   # provision's application loadbalancer
   set {
     name  = "service.type"
