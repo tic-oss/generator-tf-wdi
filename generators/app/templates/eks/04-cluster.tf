@@ -8,7 +8,7 @@ resource "aws_eks_cluster" "aws_eks_cluster_tic" {
   }
 
   tags = {
-    APP = var.tags
+    app = var.project_name
   }
 
   depends_on = [
