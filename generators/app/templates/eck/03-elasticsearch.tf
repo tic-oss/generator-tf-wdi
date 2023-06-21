@@ -28,7 +28,7 @@ resource "kubectl_manifest" "elasticsearch" {
                       - key: agentpool
                         operator: In
                         values:
-                        - ${var.cluster_name}-eck-node-pool
+                        - ${var.eck_node_pool}
                       <%_ } _%>
   YAML
 
