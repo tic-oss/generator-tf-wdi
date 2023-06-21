@@ -94,6 +94,9 @@ module.exports = class extends Generator {
         this._fileHelper(fileListEck, options, copyOpts);
       }
 
+      if (options.minikube === "true") {
+        this._fileHelper(fileListMinikube, options, copyOpts);
+      }
       // This._servicesOptionsHelper(options, copyOpts);
     } catch (error) {
       this.log(error);

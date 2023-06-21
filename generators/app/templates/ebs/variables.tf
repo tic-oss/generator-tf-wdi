@@ -5,5 +5,5 @@ variable "cluster_name" {
 
 variable "region" {
   type    = string
-  default = <%- "\""+awsRegion+"\"" %>
+  default = "<%- awsRegion %>"
 }

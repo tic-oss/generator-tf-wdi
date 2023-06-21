@@ -1,25 +1,25 @@
 variable "resource_group_name" {
   description = "Name of the resource group to be imported."
   type        = string
-  default     = <%- "\""+"rg-"+projectName+"\"" %>
+  default     = "<%- "rg-"+ projectName %>"
 }
 
 variable "cluster_name" {
   description = "Name of AKS cluster."
   type        = string
-  default     = <%- "\""+clusterName+"\"" %> 
+  default     = "<%- clusterName %>" 
 }
 
 variable "acr_name" {
   description = "Name of the azure container registry."
   type        = string
-  default     = <%- "\""+"acr"+projectName+"\"" %> 
+  default     = "<%- "acr"+projectName %>" 
 }
 
 variable "location" {
   description = "Location (Azure Region)."
   type    = string
-  default = <%- "\""+location+"\"" %>
+  default = "<%- location %>"
 }
 
 variable "acr_sku" {

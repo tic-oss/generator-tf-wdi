@@ -1,7 +1,7 @@
 variable "resource_group_name" {
   description = "Name of the resource group to be imported."
   type        = string
-  default     = <%- "\""+"rg-"+projectName+"\"" %>
+  default     = "<%- "rg-"+projectName %>"
 }
 
 variable "tags" {
@@ -9,14 +9,14 @@ variable "tags" {
   type        = map(string)
 
   default = {
-    APP = <%- "\""+projectName+"\"" %>
+    APP = "<%- projectName %>"
   }
 }
 
 variable "vnet_name" {
   description = "Name of the vnet to create"
   type        = string
-  default     = <%- "\""+"vnet-"+projectName+"\"" %>
+  default     = "<%- "vnet-"+projectName %>"
 }
 
 variable "address_space" {
@@ -35,13 +35,13 @@ variable "dns_servers" {
 variable "location" {
   description = "Location (Azure Region)."
   type    = string
-  default = <%- "\""+location+"\"" %>
+  default = "<%- location %>"
 }
 
 variable "security_group_name" {
   description = "Network security group name"
   type        = string
-  default     = <%- "\""+"nsg-"+projectName+"\"" %>
+  default     = "<%- "nsg-"+projectName %>"
 }
 
 variable "subnet_name" {

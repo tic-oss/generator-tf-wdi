@@ -50,20 +50,18 @@ resource "helm_release" "istio-ingressgateway" {
     name = "labels.istio"
     value = "ingressgateway"
   }
+<%_ if (minikube == "false") { _%>
   # provision's application loadbalancer
   set {
     name  = "service.type"
-    <%_ if (cloudProvider == "aws") { _%>
-    value = "NodePort"
-    <%_ } _%>
-    <%_ if (cloudProvider == "azure") { _%>
-    value = "LoadBalancer"
-    <%_ } _%>
+    value = "<%= cloudProvider == "aws" ? "NodePort" : "LoadBalancer" %>"
   }
+<%_ } _%>
 }
 
-<%_ if (cloudProvider == "azure") { _%>
+<%_ if (minikube == "false") { _%>
 
+<%_ if (cloudProvider == "azure") { _%>
 resource "time_sleep" "wait_30_seconds" {
   depends_on = [
     helm_release.istio-ingressgateway
@@ -91,15 +89,9 @@ resource "kubernetes_ingress_v1" "ingress" {
       app = "ingress"
     }
     annotations = {
-      <%_ if (cloudProvider == "aws") { _%>
       "kubernetes.io/ingress.class"       = "alb"
       "alb.ingress.kubernetes.io/scheme"  = "internet-facing"  
       "alb.ingress.kubernetes.io/load-balancer-name" = "${var.cluster_name}-istio-alb" 
-      <%_ } _%>
-      <%_ if (cloudProvider == "azure") { _%>
-      "kubernetes.io/ingress.class" = "azure/ingress-controller"
-      "service.beta.kubernetes.io/azure-dns-label-name" = "istio" 
-      <%_ } _%>   
     }
   }
 
@@ -132,7 +124,6 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 
-<%_ if (minikube == "false") { _%>
 data "aws_lb" "istio_alb" {
   name = "${var.cluster_name}-istio-alb"
   depends_on = [
@@ -148,6 +139,7 @@ resource "null_resource" "print_alb_dns_name" {
     data.aws_lb.istio_alb
   ]
 }
+<%_ } _%>
 <%_ } _%>
 
 # Adds default namespace as side car in istio 
