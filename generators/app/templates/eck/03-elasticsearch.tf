@@ -73,3 +73,12 @@ resource "kubectl_manifest" "elasticsearch_lb" {
   ]
 }
 
+resource "null_resource" "print_elasticsearch_loadBalancer_dns" {
+  provisioner "local-exec" {
+    command = "kubectl get service elasticsearch-nlb -o jsonpath='{.status.loadBalancer.ingress[0].ip}' >> elasticsearch-dns.txt"
+  }
+  depends_on = [
+    kubectl_manifest.elasticsearch_lb
+  ]
+}
+

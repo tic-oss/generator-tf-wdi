@@ -70,3 +70,12 @@ resource "kubectl_manifest" "kibana_lb" {
     kubectl_manifest.kibana
   ]
 }
+
+resource "null_resource" "print_kibana_loadBalancer_dns" {
+  provisioner "local-exec" {
+    command = "kubectl get service kibana-nlb -o jsonpath='{.status.loadBalancer.ingress[0].ip}' >> kibana-dns.txt"
+  }
+  depends_on = [
+    kubectl_manifest.kibana_lb
+  ]
+}
