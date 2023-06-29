@@ -30,6 +30,7 @@ Use the below command to generate the password.
 ### How to access deployed services:
 
 [Elasticsearch] > refer elasticsearch-dns.txt 
+
 [Kibana]        > refer kibana-dns.txt
 
 The above txt file contains the links to access the services respectively.
