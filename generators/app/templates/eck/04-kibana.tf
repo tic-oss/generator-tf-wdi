@@ -73,8 +73,14 @@ resource "kubectl_manifest" "kibana_lb" {
 
 resource "null_resource" "print_kibana_loadBalancer_dns" {
   provisioner "local-exec" {
-    command = "kubectl get service kibana-nlb -o jsonpath='{.status.loadBalancer.ingress[0].ip}' >> kibana-dns.txt"
+    command = <<-EOT
+      dns=$(kubectl get service kibana-nlb -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+      echo "https://${dns}:5601" >> kibana-dns.txt
+    EOT
+
+    interpreter = ["bash", "-c"]
   }
+
   depends_on = [
     kubectl_manifest.kibana_lb
   ]

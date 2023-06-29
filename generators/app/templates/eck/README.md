@@ -29,18 +29,11 @@ Use the below command to generate the password.
 
 ### How to access deployed services:
 
-[Elasticsearch]
-url: https://elasticsearch-dns-name:9200
-
-[Kibana]
-url: https://kibana-dns-name:5601
-
-### DNS Name:
-
 [Elasticsearch] > refer elasticsearch-dns.txt 
 [Kibana]        > refer kibana-dns.txt
 
-Note: These txt files are generated after the successful deployment, and you can refer the dns name in the above mentioned txt files.
+The above txt file contains the links to access the services respectively.
 
+Note: These txt files are generated after the successful deployment.
 
 
