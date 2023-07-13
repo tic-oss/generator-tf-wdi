@@ -58,11 +58,11 @@ resource "kubectl_manifest" "elasticsearch_lb" {
         <%_ } _%>
         namespace: default
       spec:
-        type: <%= onCloud ? 'NodePort' : 'LoadBalancer' %>
+        type: <%= onCloud == "false" ? 'NodePort' : 'LoadBalancer' %>
         ports:
           - port: 9200
             targetPort: 9200
-        <%_ if (onCloud) { _%>
+        <%_ if (onCloud == "true") { _%>
             nodePort: 30300
         <%_ } _%>
             name: http
@@ -76,7 +76,7 @@ resource "kubectl_manifest" "elasticsearch_lb" {
   ]
 }
 
-<%_ if (!onCloud) { _%>
+<%_ if (onCloud == "true") { _%>
 resource "null_resource" "print_elasticsearch_loadBalancer_dns" {
   provisioner "local-exec" {
     command = <<-EOT

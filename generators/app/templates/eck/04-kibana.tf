@@ -56,11 +56,11 @@ resource "kubectl_manifest" "kibana_lb" {
         <%_ } _%>
         namespace: default
       spec:
-        type: <%= onCloud ? 'NodePort' : 'LoadBalancer' %>
+        type: <%= onCloud == "false" ? 'NodePort' : 'LoadBalancer' %>
         ports:
           - port: 5601
             targetPort: 5601
-        <%_ if (onCloud) { _%>
+        <%_ if (onCloud =="true") { _%>
             nodePort: 30301
         <%_ } _%> 
             name: http
@@ -74,7 +74,7 @@ resource "kubectl_manifest" "kibana_lb" {
   ]
 }
 
-<%_ if (!onCloud) { _%>
+<%_ if (onCloud == "ture") { _%>
 resource "null_resource" "print_kibana_loadBalancer_dns" {
   provisioner "local-exec" {
     command = <<-EOT
