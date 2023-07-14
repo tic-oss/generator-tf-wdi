@@ -58,7 +58,7 @@ resource "kubectl_manifest" "elasticsearch_lb" {
         <%_ } _%>
         namespace: default
       spec:
-        type: <%= !onCloud ? 'NodePort' : 'LoadBalancer' %>
+        type: <%= onCloud ? 'LoadBalancer' : 'NodePort' %>
         ports:
           - port: 9200
             targetPort: 9200

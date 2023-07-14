@@ -56,7 +56,7 @@ resource "kubectl_manifest" "kibana_lb" {
         <%_ } _%>
         namespace: default
       spec:
-        type: <%= !onCloud ? 'NodePort' : 'LoadBalancer' %>
+        type: <%= onCloud ? 'LoadBalancer' : 'NodePort' %>
         ports:
           - port: 5601
             targetPort: 5601
