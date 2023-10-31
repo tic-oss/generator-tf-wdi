@@ -28,7 +28,7 @@ resource "null_resource" "build_image" {
                 # Change back to the previous directory
                 cd ..
             elif [ -f "go.mod" ]; then
-                docker build --platform=linux/amd64 -t $(pwd | awk -F'/' '{print $(NF-1)}') .
+                docker build --platform=linux/amd64 -t $(pwd | awk -F'/' '{print $(NF)}') .
             else
                 # If the directory doesn't contain a "go" folder, run the following command
                 npm run java:docker
